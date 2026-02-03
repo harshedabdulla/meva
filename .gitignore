@@ -34,3 +34,6 @@ contracts/docs/
 # testing
 coverage/
 lcov.info
+
+# to do
+TODO.md
