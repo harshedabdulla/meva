@@ -1,0 +1,36 @@
+# dependencies
+node_modules/
+contracts/lib/
+
+# build
+contracts/out/
+contracts/cache/
+dist/
+build/
+
+# env
+.env
+.env.local
+.env.*.local
+
+# logs
+*.log
+npm-debug.log*
+
+# ide
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# os
+.DS_Store
+Thumbs.db
+
+# foundry
+contracts/broadcast/
+contracts/docs/
+
+# testing
+coverage/
+lcov.info
