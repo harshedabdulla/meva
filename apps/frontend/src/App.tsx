@@ -1,5 +1,5 @@
 import { Layout } from './components/Layout'
-import { StatsCards, LiveFeed } from './components/Dashboard'
+import { StatsCards, LiveFeed, DividendChart, RegisterBot, BotLeaderboard } from './components/Dashboard'
 import { ClaimPanel } from './components/Claim'
 import { motion } from 'framer-motion'
 
@@ -28,8 +28,8 @@ function App() {
           <StatsCards />
         </section>
 
-        {/* Main grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
+        {/* Main grid - Row 1 */}
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-4 mb-4">
           <div className="lg:col-span-3">
             <LiveFeed />
           </div>
@@ -37,6 +37,21 @@ function App() {
             <ClaimPanel />
           </div>
         </div>
+
+        {/* Main grid - Row 2 */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-4">
+          <div className="lg:col-span-2">
+            <DividendChart />
+          </div>
+          <div>
+            <RegisterBot />
+          </div>
+        </div>
+
+        {/* Leaderboard */}
+        <section>
+          <BotLeaderboard />
+        </section>
       </div>
     </Layout>
   )

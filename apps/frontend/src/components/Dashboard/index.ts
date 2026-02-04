@@ -1,2 +1,5 @@
 export { StatsCards } from './StatsCards'
 export { LiveFeed } from './LiveFeed'
+export { DividendChart } from './DividendChart'
+export { RegisterBot } from './RegisterBot'
+export { BotLeaderboard } from './BotLeaderboard'
