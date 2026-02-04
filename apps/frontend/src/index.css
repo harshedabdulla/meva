@@ -1,0 +1,297 @@
+@import "tailwindcss";
+
+/*
+ * MEVA Protocol - Uniswap-Inspired Design System
+ *
+ * Based on Uniswap's design language:
+ * - Primary: Uniswap Pink #FF007A
+ * - Background: #131313 (dark)
+ * - Typography: Inter (free alternative to Basel)
+ * - Minimal, clean aesthetic
+ */
+
+:root {
+  /* Uniswap-inspired backgrounds */
+  --bg-0: #131313;
+  --bg-1: #1B1B1B;
+  --bg-2: #222222;
+  --bg-3: #2C2C2C;
+
+  /* Uniswap Pink as primary */
+  --pink-50: #FFF0F6;
+  --pink-100: #FFD6E8;
+  --pink-200: #FFB8D9;
+  --pink-300: #FF85C0;
+  --pink-400: #FF4DA6;
+  --pink-500: #FF007A;
+  --pink-600: #D90068;
+  --pink-700: #B30056;
+
+  /* Accent colors */
+  --green: #21C95E;
+  --red: #FF5F52;
+  --blue: #4C82FB;
+  --orange: #FF8934;
+  --yellow: #FFC53D;
+
+  /* Text colors */
+  --text-primary: #FFFFFF;
+  --text-secondary: #9B9B9B;
+  --text-tertiary: #5E5E5E;
+
+  /* Borders */
+  --border-1: rgba(255, 255, 255, 0.07);
+  --border-2: rgba(255, 255, 255, 0.12);
+  --border-3: rgba(255, 255, 255, 0.2);
+
+  /* Semantic */
+  --success: #21C95E;
+  --error: #FF5F52;
+  --warning: #FF8934;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--bg-0);
+  color: var(--text-primary);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-feature-settings: 'ss01' on, 'cv01' on;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+/* ============================================
+   Background Effects
+   ============================================ */
+
+.bg-base {
+  background: var(--bg-0);
+}
+
+/* Subtle pink glow in top corners */
+.bg-glow::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 600px;
+  background: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(255, 0, 122, 0.08), transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ============================================
+   Cards - Uniswap Style
+   ============================================ */
+
+.card {
+  background: var(--bg-1);
+  border: 1px solid var(--border-1);
+  border-radius: 20px;
+  transition: border-color 0.15s ease;
+}
+
+.card:hover {
+  border-color: var(--border-2);
+}
+
+.card-surface {
+  background: var(--bg-2);
+  border: 1px solid var(--border-1);
+  border-radius: 16px;
+}
+
+.card-elevated {
+  background: var(--bg-1);
+  border: 1px solid var(--border-2);
+  border-radius: 20px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* ============================================
+   Typography
+   ============================================ */
+
+.text-gradient-pink {
+  background: linear-gradient(90deg, #FF007A 0%, #FF85C0 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.font-mono {
+  font-family: 'JetBrains Mono', 'SF Mono', 'Fira Code', monospace;
+}
+
+/* ============================================
+   Buttons - Uniswap Style
+   ============================================ */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-weight: 535;
+  border-radius: 16px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+  font-size: 16px;
+  padding: 12px 16px;
+}
+
+.btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Primary pink button */
+.btn-primary {
+  background: var(--pink-500);
+  color: white;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: var(--pink-600);
+}
+
+.btn-primary:active:not(:disabled) {
+  background: var(--pink-700);
+}
+
+/* Secondary/Ghost button */
+.btn-secondary {
+  background: var(--bg-2);
+  color: var(--text-primary);
+  border: 1px solid var(--border-1);
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: var(--bg-3);
+  border-color: var(--border-2);
+}
+
+/* Small button variant */
+.btn-sm {
+  font-size: 14px;
+  padding: 8px 12px;
+  border-radius: 12px;
+  font-weight: 485;
+}
+
+/* ============================================
+   Badge / Tag
+   ============================================ */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  font-size: 12px;
+  font-weight: 485;
+  border-radius: 8px;
+  background: var(--bg-2);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-1);
+}
+
+.badge-pink {
+  background: rgba(255, 0, 122, 0.1);
+  color: var(--pink-500);
+  border-color: rgba(255, 0, 122, 0.2);
+}
+
+.badge-green {
+  background: rgba(33, 201, 94, 0.1);
+  color: var(--green);
+  border-color: rgba(33, 201, 94, 0.2);
+}
+
+/* ============================================
+   Input
+   ============================================ */
+
+.input {
+  width: 100%;
+  padding: 16px;
+  background: var(--bg-2);
+  border: 1px solid var(--border-1);
+  border-radius: 16px;
+  color: var(--text-primary);
+  font-size: 16px;
+  transition: border-color 0.15s ease;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--pink-500);
+}
+
+.input::placeholder {
+  color: var(--text-tertiary);
+}
+
+/* ============================================
+   Live Indicator
+   ============================================ */
+
+.live-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--green);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.7; transform: scale(0.95); }
+}
+
+/* ============================================
+   Scrollbar
+   ============================================ */
+
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-2);
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--border-3);
+}
+
+/* ============================================
+   Utility
+   ============================================ */
+
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
