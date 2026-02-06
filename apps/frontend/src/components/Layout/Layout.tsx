@@ -2,8 +2,8 @@ import { Header } from './Header'
 
 interface LayoutProps {
   children: React.ReactNode
-  currentPage: 'dashboard' | 'docs' | 'leaderboard' | 'auto-settle'
-  onNavigate: (page: 'dashboard' | 'docs' | 'leaderboard' | 'auto-settle') => void
+  currentPage: 'dashboard' | 'docs' | 'leaderboard' | 'auto-settle' | 'cross-chain'
+  onNavigate: (page: 'dashboard' | 'docs' | 'leaderboard' | 'auto-settle' | 'cross-chain') => void
 }
 
 export function Layout({ children, currentPage, onNavigate }: LayoutProps) {

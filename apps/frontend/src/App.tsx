@@ -2,10 +2,10 @@ import { useState } from 'react'
 import { Layout } from './components/Layout'
 import { StatsCards, LiveFeed, DividendChart, RegisterBot } from './components/Dashboard'
 import { ClaimPanel } from './components/Claim'
-import { DocsPage, LeaderboardPage, AutoSettlePage } from './pages'
+import { DocsPage, LeaderboardPage, AutoSettlePage, CrossChainPage } from './pages'
 import { motion, AnimatePresence } from 'framer-motion'
 
-type Page = 'dashboard' | 'docs' | 'leaderboard' | 'auto-settle'
+type Page = 'dashboard' | 'docs' | 'leaderboard' | 'auto-settle' | 'cross-chain'
 
 function Dashboard() {
   return (
@@ -75,6 +75,8 @@ function App() {
         return <LeaderboardPage />
       case 'auto-settle':
         return <AutoSettlePage />
+      case 'cross-chain':
+        return <CrossChainPage />
       case 'docs':
         return <DocsPage />
       default:

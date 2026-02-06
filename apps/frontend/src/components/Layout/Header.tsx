@@ -1,10 +1,10 @@
 import { useAccount, useConnect, useDisconnect, useChainId, useSwitchChain } from 'wagmi'
-import { Wallet, ChevronDown, LogOut, Copy, Check, Book, LayoutDashboard, Trophy, Zap, Menu, X } from 'lucide-react'
+import { Wallet, ChevronDown, LogOut, Copy, Check, Book, LayoutDashboard, Trophy, Zap, Menu, X, ArrowRightLeft } from 'lucide-react'
 import { useState } from 'react'
 
 interface HeaderProps {
-  currentPage: 'dashboard' | 'docs' | 'leaderboard' | 'auto-settle'
-  onNavigate: (page: 'dashboard' | 'docs' | 'leaderboard' | 'auto-settle') => void
+  currentPage: 'dashboard' | 'docs' | 'leaderboard' | 'auto-settle' | 'cross-chain'
+  onNavigate: (page: 'dashboard' | 'docs' | 'leaderboard' | 'auto-settle' | 'cross-chain') => void
 }
 
 export function Header({ currentPage, onNavigate }: HeaderProps) {
@@ -102,6 +102,17 @@ export function Header({ currentPage, onNavigate }: HeaderProps) {
               >
                 <Book className="w-4 h-4" />
                 Docs
+              </button>
+              <button
+                onClick={() => onNavigate('cross-chain')}
+                className={`flex items-center gap-2 px-3 py-2 rounded-xl text-sm transition-colors ${
+                  currentPage === 'cross-chain'
+                    ? 'bg-[rgba(76,130,251,0.15)] text-[var(--blue)]'
+                    : 'text-[var(--blue)]/70 hover:text-[var(--blue)] hover:bg-[rgba(76,130,251,0.1)]'
+                }`}
+              >
+                <ArrowRightLeft className="w-4 h-4" />
+                Bridge
               </button>
               <button
                 onClick={() => onNavigate('auto-settle')}
@@ -283,6 +294,20 @@ export function Header({ currentPage, onNavigate }: HeaderProps) {
               >
                 <Book className="w-5 h-5" aria-hidden="true" />
                 Docs
+              </button>
+              <button
+                onClick={() => {
+                  onNavigate('cross-chain')
+                  setShowMobileMenu(false)
+                }}
+                className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left transition-colors ${
+                  currentPage === 'cross-chain'
+                    ? 'bg-[rgba(76,130,251,0.15)] text-[var(--blue)]'
+                    : 'text-[var(--blue)]/70 hover:bg-[rgba(76,130,251,0.1)]'
+                }`}
+              >
+                <ArrowRightLeft className="w-5 h-5" aria-hidden="true" />
+                Bridge
               </button>
               <button
                 onClick={() => {
