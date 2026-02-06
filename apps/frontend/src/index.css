@@ -102,11 +102,25 @@ body {
   background: var(--bg-1);
   border: 1px solid var(--border-1);
   border-radius: 20px;
-  transition: border-color 0.15s ease;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
 }
 
 .card:hover {
   border-color: var(--border-2);
+}
+
+/* Interactive card variant */
+.card-interactive {
+  cursor: pointer;
+}
+
+.card-interactive:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+.card-interactive:active {
+  transform: translateY(0);
 }
 
 .card-surface {
@@ -125,6 +139,57 @@ body {
 /* ============================================
    Typography
    ============================================ */
+
+/* Standardized heading styles */
+.heading-1 {
+  font-size: 1.875rem; /* 30px */
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  color: var(--text-primary);
+}
+
+.heading-2 {
+  font-size: 1.25rem; /* 20px */
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+  color: var(--text-primary);
+}
+
+.heading-3 {
+  font-size: 1rem; /* 16px */
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--text-primary);
+}
+
+/* Body text styles */
+.text-body {
+  font-size: 0.875rem; /* 14px */
+  line-height: 1.5;
+  color: var(--text-secondary);
+}
+
+.text-caption {
+  font-size: 0.75rem; /* 12px */
+  line-height: 1.4;
+  color: var(--text-tertiary);
+}
+
+/* Data display styles */
+.text-value {
+  font-family: 'JetBrains Mono', 'SF Mono', 'Fira Code', monospace;
+  font-size: 1.5rem; /* 24px */
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.text-value-sm {
+  font-family: 'JetBrains Mono', 'SF Mono', 'Fira Code', monospace;
+  font-size: 0.875rem; /* 14px */
+  font-weight: 500;
+}
 
 .text-gradient-pink {
   background: linear-gradient(90deg, #FF007A 0%, #FF85C0 100%);
@@ -165,14 +230,20 @@ body {
 .btn-primary {
   background: var(--pink-500);
   color: white;
+  position: relative;
+  overflow: hidden;
 }
 
 .btn-primary:hover:not(:disabled) {
   background: var(--pink-600);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(255, 0, 122, 0.3);
 }
 
 .btn-primary:active:not(:disabled) {
   background: var(--pink-700);
+  transform: translateY(0);
+  box-shadow: none;
 }
 
 /* Secondary/Ghost button */
@@ -185,6 +256,12 @@ body {
 .btn-secondary:hover:not(:disabled) {
   background: var(--bg-3);
   border-color: var(--border-2);
+  transform: translateY(-1px);
+}
+
+.btn-secondary:active:not(:disabled) {
+  transform: translateY(0);
+  background: var(--bg-2);
 }
 
 /* Small button variant */
@@ -222,6 +299,40 @@ body {
   background: rgba(33, 201, 94, 0.1);
   color: var(--green);
   border-color: rgba(33, 201, 94, 0.2);
+}
+
+.badge-orange {
+  background: rgba(255, 137, 52, 0.1);
+  color: var(--orange);
+  border-color: rgba(255, 137, 52, 0.2);
+}
+
+.badge-blue {
+  background: rgba(76, 130, 251, 0.1);
+  color: var(--blue);
+  border-color: rgba(76, 130, 251, 0.2);
+}
+
+/* Success animation */
+@keyframes success-pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.animate-success {
+  animation: success-pulse 0.3s ease-out;
+}
+
+/* Subtle number change animation */
+@keyframes number-pop {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); color: var(--green); }
+  100% { transform: scale(1); }
+}
+
+.animate-number {
+  animation: number-pop 0.4s ease-out;
 }
 
 /* ============================================
@@ -265,6 +376,31 @@ body {
   50% { opacity: 0.7; transform: scale(0.95); }
 }
 
+/* Skeleton loading animation */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--bg-2) 25%,
+    var(--bg-3) 50%,
+    var(--bg-2) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+  border-radius: 8px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton {
+    animation: none;
+    background: var(--bg-2);
+  }
+}
+
 /* ============================================
    Scrollbar
    ============================================ */
@@ -284,6 +420,116 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--border-3);
+}
+
+/* ============================================
+   Accessibility
+   ============================================ */
+
+/* Respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .live-dot {
+    animation: none;
+  }
+}
+
+/* Focus visible styles for keyboard navigation */
+:focus-visible {
+  outline: 2px solid var(--pink-500);
+  outline-offset: 2px;
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.btn:focus-visible,
+.card:focus-visible,
+.input:focus-visible {
+  outline: 2px solid var(--pink-500);
+  outline-offset: 2px;
+}
+
+/* Skip link for keyboard users */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 16px;
+  padding: 8px 16px;
+  background: var(--pink-500);
+  color: white;
+  border-radius: 8px;
+  font-weight: 500;
+  z-index: 100;
+  transition: top 0.2s ease;
+}
+
+.skip-link:focus {
+  top: 16px;
+}
+
+/* Screen reader only text */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ============================================
+   Mobile Improvements
+   ============================================ */
+
+/* Ensure minimum touch target size (44px) */
+@media (max-width: 640px) {
+  .btn {
+    min-height: 44px;
+    padding: 12px 16px;
+  }
+
+  .btn-sm {
+    min-height: 40px;
+    padding: 10px 14px;
+  }
+
+  /* Larger tap targets for links */
+  a {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  /* Better spacing on mobile */
+  .card {
+    border-radius: 16px;
+  }
+
+  /* Scrollable tables on mobile */
+  .table-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* Safe area padding for notched devices */
+@supports (padding: max(0px)) {
+  .safe-area-bottom {
+    padding-bottom: max(16px, env(safe-area-inset-bottom));
+  }
 }
 
 /* ============================================

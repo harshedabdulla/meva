@@ -1,22 +1,24 @@
 import { useState } from 'react'
-import { useAccount, useWriteContract, useWaitForTransactionReceipt, useReadContract } from 'wagmi'
+import { useAccount, useWriteContract, useWaitForTransactionReceipt, useReadContract, useChainId } from 'wagmi'
 import { parseEther } from 'viem'
 import { motion } from 'framer-motion'
 import { Bot, Check, Loader2, AlertCircle, Shield } from 'lucide-react'
-import { CONTRACTS, BOT_REGISTRY_ABI } from '../../lib/contracts'
+import { getContracts, BOT_REGISTRY_ABI } from '../../lib/contracts'
 
 export function RegisterBot() {
   const { address, isConnected } = useAccount()
+  const chainId = useChainId()
+  const contracts = getContracts(chainId)
   const [showConfirm, setShowConfirm] = useState(false)
 
   const { data: licenseFee } = useReadContract({
-    address: CONTRACTS.sepolia.botRegistry as `0x${string}`,
+    address: contracts.botRegistry,
     abi: BOT_REGISTRY_ABI,
     functionName: 'LICENSE_FEE',
   })
 
   const { data: isLicensed, refetch: refetchLicense } = useReadContract({
-    address: CONTRACTS.sepolia.botRegistry as `0x${string}`,
+    address: contracts.botRegistry,
     abi: BOT_REGISTRY_ABI,
     functionName: 'isLicensed',
     args: address ? [address] : undefined,
@@ -24,7 +26,7 @@ export function RegisterBot() {
   })
 
   const { data: isKnownBot } = useReadContract({
-    address: CONTRACTS.sepolia.botRegistry as `0x${string}`,
+    address: contracts.botRegistry,
     abi: BOT_REGISTRY_ABI,
     functionName: 'isKnownBot',
     args: address ? [address] : undefined,
@@ -41,7 +43,7 @@ export function RegisterBot() {
     }
 
     writeContract({
-      address: CONTRACTS.sepolia.botRegistry as `0x${string}`,
+      address: contracts.botRegistry,
       abi: BOT_REGISTRY_ABI,
       functionName: 'registerAsLicensed',
       value: licenseFee || parseEther('0.1'),

@@ -9,7 +9,7 @@ export interface MevCapture {
   taxRate: number
   taxAmount: string
   txHash: string
-  blockNumber: bigint
+  blockNumber: string
   timestamp: number
 }
 
@@ -113,7 +113,7 @@ function handleMevCaptured(log: Log, chain: string) {
     taxRate: Number(args.taxRate),
     taxAmount: formatEther(args.taxAmount),
     txHash: log.transactionHash || '',
-    blockNumber: log.blockNumber || BigInt(0),
+    blockNumber: (log.blockNumber || BigInt(0)).toString(),
     timestamp: Date.now(),
   }
 
@@ -191,7 +191,7 @@ function startDemoMode() {
       taxRate,
       taxAmount,
       txHash: `0x${Math.random().toString(16).slice(2).padEnd(64, '0')}`,
-      blockNumber: BigInt(Math.floor(Math.random() * 1000000) + 18000000),
+      blockNumber: (Math.floor(Math.random() * 1000000) + 18000000).toString(),
       timestamp: Date.now(),
     }
 

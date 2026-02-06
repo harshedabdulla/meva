@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Trophy, ExternalLink, Shield, ShieldOff } from 'lucide-react'
+import { Trophy, ExternalLink, Shield, ShieldOff, Users } from 'lucide-react'
 
 interface BotInfo {
   address: string
@@ -21,9 +21,36 @@ const DEMO_BOTS: BotInfo[] = [
   { address: '0x5c69bee701ef814a2b6a3edd4b1652cb9cc5aa6f', isLicensed: false, totalTaxPaid: '1.2345', captureCount: 19 },
 ]
 
+function LeaderboardSkeleton() {
+  return (
+    <div className="divide-y divide-[var(--border-1)]" aria-hidden="true">
+      {[...Array(5)].map((_, i) => (
+        <div key={i} className="px-5 py-3 grid grid-cols-12 gap-2 items-center">
+          <div className="col-span-1">
+            <div className="w-6 h-6 skeleton rounded-lg" />
+          </div>
+          <div className="col-span-5">
+            <div className="h-4 w-24 skeleton" />
+          </div>
+          <div className="col-span-2 flex justify-end">
+            <div className="h-5 w-16 skeleton" />
+          </div>
+          <div className="col-span-2 flex justify-end">
+            <div className="h-4 w-8 skeleton" />
+          </div>
+          <div className="col-span-2 flex justify-end">
+            <div className="h-4 w-16 skeleton" />
+          </div>
+        </div>
+      ))}
+    </div>
+  )
+}
+
 export function BotLeaderboard() {
   const [bots, setBots] = useState<BotInfo[]>(DEMO_BOTS)
   const [showAll, setShowAll] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
 
   // Try to fetch from API (falls back to demo data)
   useEffect(() => {
@@ -38,6 +65,8 @@ export function BotLeaderboard() {
         }
       } catch {
         // keep demo data
+      } finally {
+        setIsLoading(false)
       }
     }
     fetchBots()
@@ -84,7 +113,20 @@ export function BotLeaderboard() {
       </div>
 
       {/* Leaderboard */}
-      <div className="divide-y divide-[var(--border-1)]">
+      {isLoading ? (
+        <LeaderboardSkeleton />
+      ) : bots.length === 0 ? (
+        <div className="flex flex-col items-center justify-center py-12 px-6 text-center">
+          <div className="w-12 h-12 rounded-2xl bg-[var(--bg-2)] flex items-center justify-center mb-4">
+            <Users className="w-6 h-6 text-[var(--text-tertiary)]" />
+          </div>
+          <p className="text-[var(--text-secondary)] font-medium mb-1">No bots tracked yet</p>
+          <p className="text-sm text-[var(--text-tertiary)]">
+            MEV bots will appear here once they interact with the protocol
+          </p>
+        </div>
+      ) : (
+      <div className="divide-y divide-[var(--border-1)]" role="list" aria-label="Bot rankings">
         <AnimatePresence initial={false}>
           {displayedBots.map((bot, index) => (
             <motion.div
@@ -149,9 +191,10 @@ export function BotLeaderboard() {
           ))}
         </AnimatePresence>
       </div>
+      )}
 
       {/* Show More/Less */}
-      {bots.length > 5 && (
+      {!isLoading && bots.length > 5 && (
         <div className="p-3 border-t border-[var(--border-1)]">
           <button
             onClick={() => setShowAll(!showAll)}

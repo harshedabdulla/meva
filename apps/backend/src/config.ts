@@ -1,4 +1,4 @@
-// contract addresses (update after deployment)
+// contract addresses - deployed on Sepolia
 export const CONTRACTS = {
   mainnet: {
     mevaHook: '0x0000000000000000000000000000000000000000' as const,
@@ -6,10 +6,17 @@ export const CONTRACTS = {
     botRegistry: '0x0000000000000000000000000000000000000000' as const,
   },
   sepolia: {
-    mevaHook: '0x0000000000000000000000000000000000000000' as const,
-    mevaVault: '0x0000000000000000000000000000000000000000' as const,
-    botRegistry: '0x0000000000000000000000000000000000000000' as const,
+    mevaHook: '0x0000000000000000000000000000000000000000' as const, // TODO: deploy with CREATE2
+    mevaVault: '0x3eb9675947365B89943bA008F217C7C505c460b4' as const,
+    botRegistry: '0x509E6EcDFcdE208aBC2fEc61DCD583E61953Db2f' as const,
   },
+} as const
+
+// Yellow Network configuration
+export const YELLOW_CONFIG = {
+  clearNodeUrl: process.env.YELLOW_CLEARNODE_URL || 'wss://clearnet.yellow.com/ws',
+  sandboxUrl: 'wss://clearnet-sandbox.yellow.com/ws',
+  useSandbox: process.env.NODE_ENV !== 'production',
 } as const
 
 export const RPC_URLS = {

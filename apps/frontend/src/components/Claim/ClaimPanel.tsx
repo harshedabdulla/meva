@@ -1,8 +1,8 @@
-import { useAccount, useReadContract, useWriteContract, useWaitForTransactionReceipt } from 'wagmi'
+import { useAccount, useReadContract, useWriteContract, useWaitForTransactionReceipt, useChainId } from 'wagmi'
 import { formatEther } from 'viem'
 import { motion } from 'framer-motion'
 import { Loader2, Check, Wallet } from 'lucide-react'
-import { CONTRACTS, MEVA_VAULT_ABI } from '../../lib/contracts'
+import { getContracts, MEVA_VAULT_ABI } from '../../lib/contracts'
 
 interface ClaimRowProps {
   label: string
@@ -16,6 +16,7 @@ interface ClaimRowProps {
 
 function ClaimRow({ label, description, amount, onClaim, isLoading, isSuccess, disabled }: ClaimRowProps) {
   const hasAmount = parseFloat(amount) > 0
+  const buttonLabel = isLoading ? `Claiming ${label}` : isSuccess ? `${label} claimed` : `Claim ${amount}`
 
   return (
     <div className="flex items-center justify-between py-4 border-b border-[var(--border-1)] last:border-0">
@@ -24,18 +25,23 @@ function ClaimRow({ label, description, amount, onClaim, isLoading, isSuccess, d
         <p className="text-xs text-[var(--text-tertiary)]">{description}</p>
       </div>
       <div className="flex items-center gap-4">
-        <p className={`text-lg font-semibold font-mono ${hasAmount ? 'text-[var(--green)]' : 'text-[var(--text-tertiary)]'}`}>
+        <p
+          className={`text-lg font-semibold font-mono ${hasAmount ? 'text-[var(--green)]' : 'text-[var(--text-tertiary)]'}`}
+          aria-label={`${label}: ${amount}`}
+        >
           {amount}
         </p>
         <button
           onClick={onClaim}
           disabled={disabled || isLoading || !hasAmount}
           className="btn btn-primary btn-sm min-w-[80px]"
+          aria-label={buttonLabel}
+          aria-busy={isLoading}
         >
           {isLoading ? (
-            <Loader2 className="w-4 h-4 animate-spin" />
+            <Loader2 className="w-4 h-4 animate-spin" aria-hidden="true" />
           ) : isSuccess ? (
-            <Check className="w-4 h-4" />
+            <Check className="w-4 h-4" aria-hidden="true" />
           ) : (
             'Claim'
           )}
@@ -47,9 +53,11 @@ function ClaimRow({ label, description, amount, onClaim, isLoading, isSuccess, d
 
 export function ClaimPanel() {
   const { address, isConnected } = useAccount()
+  const chainId = useChainId()
+  const contracts = getContracts(chainId)
 
   const { data: lpDividend, refetch: refetchLp } = useReadContract({
-    address: CONTRACTS.sepolia.mevaVault as `0x${string}`,
+    address: contracts.mevaVault,
     abi: MEVA_VAULT_ABI,
     functionName: 'pendingLPDividend',
     args: address ? [address] : undefined,
@@ -57,7 +65,7 @@ export function ClaimPanel() {
   })
 
   const { data: rebate, refetch: refetchRebate } = useReadContract({
-    address: CONTRACTS.sepolia.mevaVault as `0x${string}`,
+    address: contracts.mevaVault,
     abi: MEVA_VAULT_ABI,
     functionName: 'pendingRebate',
     args: address ? [address] : undefined,
@@ -72,7 +80,7 @@ export function ClaimPanel() {
 
   const handleClaimLp = () => {
     claimLp({
-      address: CONTRACTS.sepolia.mevaVault as `0x${string}`,
+      address: contracts.mevaVault,
       abi: MEVA_VAULT_ABI,
       functionName: 'claimLPDividend',
     })
@@ -80,7 +88,7 @@ export function ClaimPanel() {
 
   const handleClaimRebate = () => {
     claimRebate({
-      address: CONTRACTS.sepolia.mevaVault as `0x${string}`,
+      address: contracts.mevaVault,
       abi: MEVA_VAULT_ABI,
       functionName: 'claimRebate',
     })
@@ -115,12 +123,14 @@ export function ClaimPanel() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3, delay: 0.25 }}
       className="card h-[420px] flex flex-col"
+      role="region"
+      aria-label="Your claimable rewards"
     >
       {/* Header */}
       <div className="p-5 border-b border-[var(--border-1)]">
         <div className="flex items-center justify-between mb-4">
           <h2 className="font-semibold text-[var(--text-primary)]">Your Rewards</h2>
-          <span className="badge badge-pink">Claimable</span>
+          {totalClaimable > 0 && <span className="badge badge-pink">Claimable</span>}
         </div>
         <div className="card-surface p-4">
           <p className="text-xs text-[var(--text-tertiary)] mb-1">Total Available</p>

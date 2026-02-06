@@ -1,6 +1,6 @@
-import { useReadContract } from 'wagmi'
+import { useReadContract, useChainId } from 'wagmi'
 import { formatEther } from 'viem'
-import { CONTRACTS, MEVA_VAULT_ABI } from '../../lib/contracts'
+import { getContracts, MEVA_VAULT_ABI } from '../../lib/contracts'
 import { motion } from 'framer-motion'
 
 interface StatCardProps {
@@ -31,16 +31,20 @@ function StatCard({ label, value, subvalue, delay = 0 }: StatCardProps) {
 
 function StatCardSkeleton() {
   return (
-    <div className="card p-5">
-      <div className="h-4 w-20 rounded bg-[var(--bg-2)] mb-3" />
-      <div className="h-7 w-28 rounded bg-[var(--bg-2)]" />
+    <div className="card p-5" aria-hidden="true">
+      <div className="h-4 w-20 skeleton mb-3" />
+      <div className="h-7 w-28 skeleton mb-2" />
+      <div className="h-3 w-16 skeleton" />
     </div>
   )
 }
 
 export function StatsCards() {
+  const chainId = useChainId()
+  const contracts = getContracts(chainId)
+
   const { data: stats, isLoading } = useReadContract({
-    address: CONTRACTS.sepolia.mevaVault as `0x${string}`,
+    address: contracts.mevaVault,
     abi: MEVA_VAULT_ABI,
     functionName: 'getStats',
   })
