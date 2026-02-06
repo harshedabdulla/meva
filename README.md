@@ -1,8 +1,16 @@
-# meva
+<p align="center">
+  <img src="docs/meva_logo.png" alt="MEVA Logo" width="120" />
+</p>
 
-> don't fight mev—own it.
+<h1 align="center">meva</h1>
 
-mev capture and redistribution protocol. tax bots, reward users.
+<p align="center">
+  <em>don't fight mev—own it.</em>
+</p>
+
+<p align="center">
+  mev capture and redistribution protocol. tax bots, reward users.
+</p>
 
 ```
 user trades → bot sandwiches → meva taxes 30% → dividends to lps + victims
@@ -59,9 +67,13 @@ forge test
 - **frontend**: react, viem, wagmi
 - **backend**: node, express
 
-## prize tracks
 
-ethglobal hackmoney 2026: yellow, uniswap v4, arc/circle, li.fi, ens
+## deployed contracts (sepolia)
+
+| contract | address |
+|----------|---------|
+| BotRegistry | `0x509E6EcDFcdE208aBC2fEc61DCD583E61953Db2f` |
+| MevaVault | `0x3eb9675947365B89943bA008F217C7C505c460b4` |
 
 ## license
 
