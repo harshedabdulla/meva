@@ -20,7 +20,7 @@ export function Layout({ children, currentPage, onNavigate }: LayoutProps) {
         <div className="max-w-6xl mx-auto px-4">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <p className="text-sm text-[var(--text-tertiary)]">
-              MEVA Protocol — ETHGlobal HackMoney 2026
+              MEVA Protocol
             </p>
             <div className="flex items-center gap-6">
               <button
