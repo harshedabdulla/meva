@@ -2,10 +2,10 @@ import { useState } from 'react'
 import { Layout } from './components/Layout'
 import { StatsCards, LiveFeed, DividendChart, RegisterBot } from './components/Dashboard'
 import { ClaimPanel } from './components/Claim'
-import { DocsPage, LeaderboardPage, AutoSettlePage, CrossChainPage } from './pages'
+import { DocsPage, LeaderboardPage, AutoSettlePage, CrossChainPage, LandingPage } from './pages'
 import { motion, AnimatePresence } from 'framer-motion'
 
-type Page = 'dashboard' | 'docs' | 'leaderboard' | 'auto-settle' | 'cross-chain'
+type Page = 'landing' | 'dashboard' | 'docs' | 'leaderboard' | 'auto-settle' | 'cross-chain'
 
 function Dashboard() {
   return (
@@ -65,7 +65,28 @@ const pageTransition = {
 }
 
 function App() {
-  const [currentPage, setCurrentPage] = useState<Page>('dashboard')
+  const [currentPage, setCurrentPage] = useState<Page>('landing')
+
+  const handleEnterApp = () => {
+    setCurrentPage('dashboard')
+  }
+
+  // Landing page is full-screen, no layout wrapper
+  if (currentPage === 'landing') {
+    return (
+      <AnimatePresence mode="wait">
+        <motion.div
+          key="landing"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <LandingPage onEnter={handleEnterApp} />
+        </motion.div>
+      </AnimatePresence>
+    )
+  }
 
   const renderPage = () => {
     switch (currentPage) {

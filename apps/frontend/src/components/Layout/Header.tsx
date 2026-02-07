@@ -3,8 +3,8 @@ import { Wallet, ChevronDown, LogOut, Copy, Check, Book, LayoutDashboard, Trophy
 import { useState } from 'react'
 
 interface HeaderProps {
-  currentPage: 'dashboard' | 'docs' | 'leaderboard' | 'auto-settle' | 'cross-chain'
-  onNavigate: (page: 'dashboard' | 'docs' | 'leaderboard' | 'auto-settle' | 'cross-chain') => void
+  currentPage: 'landing' | 'dashboard' | 'docs' | 'leaderboard' | 'auto-settle' | 'cross-chain'
+  onNavigate: (page: 'landing' | 'dashboard' | 'docs' | 'leaderboard' | 'auto-settle' | 'cross-chain') => void
 }
 
 export function Header({ currentPage, onNavigate }: HeaderProps) {
@@ -53,7 +53,7 @@ export function Header({ currentPage, onNavigate }: HeaderProps) {
               )}
             </button>
 
-            <button onClick={() => onNavigate('dashboard')} className="flex items-center gap-2" aria-label="MEVA home">
+            <button onClick={() => onNavigate('landing')} className="flex items-center gap-2" aria-label="MEVA home">
               <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true">
                 <rect width="32" height="32" rx="8" fill="url(#logo-gradient)"/>
                 <path d="M10 16L14 12L18 16L22 12" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
